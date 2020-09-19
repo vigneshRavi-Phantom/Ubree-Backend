@@ -1,6 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
+import { lte } from "sequelize/types/lib/operators";
 import { client } from "../dbconfig";
+import { convertToJson } from "../helpers/parsing";
 import { ILoginResponse } from "../interfaces/loginResponse";
+import { IOTPValidation } from "../interfaces/otpValidation";
 import { generateOTP } from "../jobs/generateOtp";
 import { ServiceAgentLogin } from "../models/serviceagentlogin.model";
 import { User } from "../models/user.model";
@@ -41,7 +44,7 @@ app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
         userResponse.phoneNumber,
         JSON.stringify({
           otp: otp,
-          time: new Date().getTime(),
+          time: new Date(),
         })
       );
       if (userResponse.userType === 1) {
@@ -49,18 +52,41 @@ app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
           userId: userId,
           userType: userResponse.userType,
           isActive: 1,
-          created: Date(),
+          created: new Date(),
         });
       } else {
         ServiceAgentLogin.create({
           userId: userId,
           userType: userResponse.userType,
           isActive: 1,
-          created: Date(),
+          created: new Date(),
         });
       }
     }
   );
 });
 
+app.post("/validate-otp", async (req: Request, res: Response) => {
+  const response: IOTPValidation = req.body;
+  let data = await (client as any).getAsync(response.phoneNumber);
+  const finalData = convertToJson(data);
+  if (finalData) {
+    if (finalData.otp === response.otp) {
+      let now = new Date();
+      let then = new Date(finalData.time);
+      //@ts-ignore
+      let diff: number = now - then;
+      if (diff >= 600000) {
+        res.json({ badRequest: true });
+      } else {
+        res.json({ success: true });
+      }
+    }
+    await client.del(response.phoneNumber, function (result, err) {
+      console.log(result);
+    });
+  } else {
+    res.sendStatus(500);
+  }
+});
 export const authRoute = app;

@@ -10,3 +10,4 @@ export const upsert = (values: any, condition: any) => {
     return Model.create(values);
   });
 };
+

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon app.ts",
     "build": "tsc-p ."
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "@types/node": "^14.11.1",
     "@types/redis": "^2.8.27",
     "@types/sequelize": "^4.28.9",
+    "@types/swagger-ui-express": "^4.1.2",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
@@ -26,6 +27,7 @@
     "otp-generator": "^2.0.0",
     "redis": "^3.0.2",
     "sequelize": "^6.3.5",
+    "swagger-ui-express": "^4.1.4",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
   },

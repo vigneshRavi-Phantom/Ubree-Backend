@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../dbconfig";
 export class UserLogin extends Model  {
   public id!: number;
-  public mobileNumber!: string;
+  public userId!: string;
   public otp!: number;
   public userType!: number;
   public isActive!: boolean;
@@ -18,7 +18,7 @@ UserLogin.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    mobileNumber: {
+    userId: {
       type: new DataTypes.STRING(10),
       allowNull: false,
     },

@@ -12,10 +12,6 @@ const app = express.Router();
 
 app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
   const userResponse: ILoginResponse = req.body;
-
-  /*
-    Generating OTP
-*/
   //@ts-ignore
   const otpArray: number[] = JSON.parse(await client.getAsync("otpArray"));
   const otp = otpArray.shift();

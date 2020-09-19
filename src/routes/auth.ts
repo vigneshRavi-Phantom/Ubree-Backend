@@ -2,7 +2,9 @@ import express, { Request, Response, NextFunction } from "express";
 import { client } from "../dbconfig";
 import { ILoginResponse } from "../interfaces/loginResponse";
 import { generateOTP } from "../jobs/generateOtp";
+import { ServiceAgentLogin } from "../models/serviceagentlogin.model";
 import { User } from "../models/user.model";
+import { UserLogin } from "../models/userlogin.model";
 const app = express.Router();
 
 app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
@@ -18,24 +20,45 @@ app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
   if (otpArray.length < 5) {
     generateOTP();
   }
+
   User.findOne({ where: { mobileNumber: userResponse.phoneNumber } }).then(
     (obj) => {
+      let userId: string = "";
       if (obj) {
-        res.json({ otp: otp ,length:otpArray.length});
+        res.json({ otp: otp, length: otpArray.length });
       } else {
         User.create({
           mobileNumber: userResponse.phoneNumber,
           userID: userResponse.phoneNumber,
           created: Date(),
           isActive: 1,
-        }).then(() => {
-          res.json({ otp: otp,length:otpArray.length });
+        }).then((value) => {
+          res.json({ otp: otp, length: otpArray.length });
+          userId = value.userID;
         });
       }
-      client.set(userResponse.phoneNumber,JSON.stringify({
-        otp:otp,
-        time:new Date().getTime()   
-      }))
+      client.set(
+        userResponse.phoneNumber,
+        JSON.stringify({
+          otp: otp,
+          time: new Date().getTime(),
+        })
+      );
+      if (userResponse.userType === 1) {
+        UserLogin.create({
+          userId: userId,
+          userType: userResponse.userType,
+          isActive: 1,
+          created: Date(),
+        });
+      } else {
+        ServiceAgentLogin.create({
+          userId: userId,
+          userType: userResponse.userType,
+          isActive: 1,
+          created: Date(),
+        });
+      }
     }
   );
 });

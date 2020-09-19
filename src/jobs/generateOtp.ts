@@ -8,7 +8,7 @@ export const generateOTP = () => {
     /*
     Generates OTP and sets in the Redis
     */
-  let otpArray: any[] = [];
+  let otpArray: number[] = [];
   while (LIMIT > 0) {
     const otp = otpGenerator.generate(6, {
       upperCase: false,
@@ -23,5 +23,5 @@ export const generateOTP = () => {
   client.set("otpArray", stringifiedArray,function(err,reply){
       console.log(reply);
   });
-  return otpArray;
+  
 };

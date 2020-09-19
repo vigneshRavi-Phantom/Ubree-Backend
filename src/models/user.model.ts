@@ -4,6 +4,7 @@ import { sequelize } from "../dbconfig";
 export class User extends Model{
     public id!: number;
     public userID !: string;
+    public userName! :string;
     public mobileNumber !:string;
     public email !: string;
     public isActive!: boolean;
@@ -19,6 +20,9 @@ User.init(
             type:DataTypes.INTEGER.UNSIGNED,
             autoIncrement:true,
             primaryKey:true
+        },
+        userName:{
+          type:DataTypes.STRING(100),
         },
         userID:{
             type: new DataTypes.STRING,
@@ -54,7 +58,7 @@ User.init(
           },
     },
     {
-        tableName: "ServiceUserLogin",
+        tableName: "User",
         sequelize,
       }
 )

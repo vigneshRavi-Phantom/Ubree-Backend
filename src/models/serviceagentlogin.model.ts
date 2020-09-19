@@ -59,3 +59,4 @@ ServiceAgentLogin.init(
     sequelize,
   }
 );
+

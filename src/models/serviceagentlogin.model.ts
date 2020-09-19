@@ -1,18 +1,19 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../dbconfig";
-import {IUserLogin} from '../interfaces/user';
-export class UserLogin extends Model  {
+
+export class ServiceAgentLogin extends Model {
   public id!: number;
   public mobileNumber!: string;
   public otp!: number;
-  public userType!: number;
   public isActive!: boolean;
-  public created!:string;
+  public roleId!: number;
+  public created!: string;
   public createdBy!: string;
-  public modified!:string;
-  public modifiedBy!:string
+  public modified!: string;
+  public modifiedBy!: string;
 }
-UserLogin.init(
+
+ServiceAgentLogin.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -53,7 +54,7 @@ UserLogin.init(
     },
   },
   {
-    tableName: "ServiceUserLogin",
+    tableName: "UserLogin",
     sequelize,
   }
 );

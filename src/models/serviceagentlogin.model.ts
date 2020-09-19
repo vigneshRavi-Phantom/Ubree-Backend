@@ -6,7 +6,7 @@ export class ServiceAgentLogin extends Model {
   public mobileNumber!: string;
   public otp!: number;
   public isActive!: boolean;
-  public roleId!: number;
+  public userType!: number;
   public created!: string;
   public createdBy!: string;
   public modified!: string;

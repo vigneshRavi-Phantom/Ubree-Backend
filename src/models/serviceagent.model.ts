@@ -1,5 +1,4 @@
 import { DataTypes, Model } from "sequelize";
-import { StringLiteral } from "typescript";
 import { sequelize } from "../dbconfig";
 
 export class ServiceAgent extends Model {

@@ -11,6 +11,7 @@ export class ServiceAgentLogin extends Model {
   public createdBy!: string;
   public modified!: string;
   public modifiedBy!: string;
+  
 }
 
 ServiceAgentLogin.init(

@@ -1,6 +1,5 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../dbconfig";
-import {IUserLogin} from '../interfaces/user';
 export class UserLogin extends Model  {
   public id!: number;
   public mobileNumber!: string;

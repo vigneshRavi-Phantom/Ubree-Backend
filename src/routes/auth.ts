@@ -73,7 +73,7 @@ app.post("/validate-otp", async (req: Request, res: Response) => {
       //@ts-ignore
       let diff: number = now - then;
       if (diff >= 600000) {
-        res.json({ badRequest: true });
+        res.status(500).json({ badRequest: true });
       } else {
         res.json({ success: true });
       }
@@ -85,4 +85,5 @@ app.post("/validate-otp", async (req: Request, res: Response) => {
     res.sendStatus(500);
   }
 });
+
 export const authRoute = app;

@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from "express";
-import { lte } from "sequelize/types/lib/operators";
 import { client } from "../dbconfig";
 import { convertToJson } from "../helpers/parsing";
 import { ILoginResponse } from "../interfaces/loginResponse";

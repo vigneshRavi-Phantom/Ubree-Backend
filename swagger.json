@@ -13,6 +13,10 @@
     {
       "name": "Uberee Backend",
       "description": "Backend of the Uberee App"
+    },
+    {
+      "name": "Auth",
+      "description": "Auth Routes"
     }
   ],
   "consumes": ["application/json"],
@@ -20,6 +24,7 @@
   "paths": {
     "/auth/login": {
       "post": {
+        "tags": ["auth"],
         "summary": "Used to login into the system",
         "requestBody": {
           "description": "Logs into the system",
@@ -42,6 +47,9 @@
           },
           "400": {
             "description": "Failed. Bad post data."
+          },
+          "500": {
+            "description": "Error in Phone Number"
           }
         }
       }

@@ -21,19 +21,19 @@ appConfig.init(
             primaryKey: true,
             allowNull:false
         },
-        sid:{
+        categoryId:{
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull:false,
         },
-        sName:{
+        Name:{
             type: DataTypes.STRING(100),
             allowNull:false,
         },
-        sValue:{
+        Value:{
             type: DataTypes.STRING(100),
             allowNull:false,
         },
-        sDescription:{
+        Description:{
             type: DataTypes.STRING(500),
             allowNull: false,
         },

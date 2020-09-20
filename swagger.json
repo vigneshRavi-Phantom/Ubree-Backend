@@ -54,6 +54,25 @@
         }
       }
     },
+    "/auth/validate-otp":{
+      "post":{
+        "tags":["auth"],
+        "summary":"Used to validate the otp sent by the Login  route",
+        "requestBody":{
+          "description":"Used to Validate the Otp sent by the Login Route",
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref":"#/definitions/validateOtp"
+              }
+            }
+          },
+          "produces":["application/json"]
+          
+        }
+      }
+    },
     "/cats/{id}": {
       "parameters": [
         {
@@ -173,6 +192,16 @@
         },
         "userType": {
           "type": "integer"
+        }
+      }
+    },
+    "validateOtp":{
+      "properties":{
+        "phoneNumber":{
+          "type":"string"
+        },
+        "otp":{
+          "type":"integer"
         }
       }
     },

@@ -52,7 +52,7 @@ UserLogin.init(
     },
   },
   {
-    tableName: "ServiceUserLogin",
+    tableName: "UserLogin",
     sequelize,
   }
 );

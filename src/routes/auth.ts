@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { client } from "../dbconfig";
+import { sendOTP } from "../helpers/liveHelpers";
 import { convertToJson } from "../helpers/parsing";
 import { validatePhoneNumber } from "../helpers/validators";
 import { ILoginResponse } from "../interfaces/loginResponse";
@@ -35,8 +36,9 @@ app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
           userID: userResponse.phoneNumber,
           created: Date(),
           isActive: 1,
-        }).then((value) => {
+        }).then(async (value) => {
           res.json({ otp: otp, length: otpArray.length });
+          await sendOTP(userResponse.phoneNumber, otp);
           userId = value.userID;
         });
       }
@@ -47,6 +49,7 @@ app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
           time: new Date(),
         })
       );
+
       client.expire(userResponse.phoneNumber, 600);
       if (userResponse.userType === 1) {
         UserLogin.create({
@@ -54,6 +57,7 @@ app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
           userType: userResponse.userType,
           isActive: 1,
           created: new Date(),
+          mobileNumber: userResponse.phoneNumber,
         });
       } else {
         ServiceAgentLogin.create({

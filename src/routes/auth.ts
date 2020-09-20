@@ -43,6 +43,7 @@ app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
           time: new Date(),
         })
       );
+      client.expire(userResponse.phoneNumber, 600);
       if (userResponse.userType === 1) {
         UserLogin.create({
           userId: userId,
@@ -68,21 +69,13 @@ app.post("/validate-otp", async (req: Request, res: Response) => {
   const finalData = convertToJson(data);
   if (finalData) {
     if (finalData.otp === response.otp) {
-      let now = new Date();
-      let then = new Date(finalData.time);
-      //@ts-ignore
-      let diff: number = now - then;
-      if (diff >= 600000) {
-        res.status(500).json({ badRequest: true });
-      } else {
-        res.json({ success: true });
-      }
+      await client.del(response.phoneNumber, function (result, err) {
+        console.log(result);
+      });
+      return res.json({ success: true });
     }
-    await client.del(response.phoneNumber, function (result, err) {
-      console.log(result);
-    });
   } else {
-    res.sendStatus(500);
+    res.status(500).json({ error: true });
   }
 });
 

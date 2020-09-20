@@ -3,10 +3,10 @@ import {sequelize} from "../dbconfig";
 
 export class appConfig extends Model{
     public id!: number;
-    public sid!: number;
-    public sName!:string;
-    public sValue!:string;
-    public sDescription!:string;
+    public categoryId!: number;
+    public Name!:string;
+    public Value!:string;
+    public Description!:string;
     public isActive!: number;
     public created!: string;
     public createdBy!: string;

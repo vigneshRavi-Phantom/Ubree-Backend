@@ -14,7 +14,7 @@ app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
   const userResponse: ILoginResponse = req.body;
   const { phoneNumber } = userResponse;
   if (!validatePhoneNumber(phoneNumber)) {
-    res.status(500).json({ error: true });
+    return res.status(500).json({ error: true });
   }
   //@ts-ignore
   const otpArray: number[] = JSON.parse(await client.getAsync("otpArray"));

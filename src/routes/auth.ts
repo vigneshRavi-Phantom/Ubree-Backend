@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import { client } from "../dbconfig";
 import { convertToJson } from "../helpers/parsing";
+import { validatePhoneNumber } from "../helpers/validators";
 import { ILoginResponse } from "../interfaces/loginResponse";
 import { IOTPValidation } from "../interfaces/otpValidation";
 import { generateOTP } from "../jobs/generateOtp";
@@ -11,6 +12,10 @@ const app = express.Router();
 
 app.post("/login", async (req: Request, res: Response, next: NextFunction) => {
   const userResponse: ILoginResponse = req.body;
+  const { phoneNumber } = userResponse;
+  if (!validatePhoneNumber(phoneNumber)) {
+    res.status(500).json({ error: true });
+  }
   //@ts-ignore
   const otpArray: number[] = JSON.parse(await client.getAsync("otpArray"));
   const otp = otpArray.shift();
